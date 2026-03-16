@@ -348,6 +348,12 @@
             app:iconSpaceReserved="false" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="checkbox_route_keyboard_dpad_as_arrows"
+            android:summary="@string/summary_checkbox_route_keyboard_dpad_as_arrows"
+            android:title="@string/title_checkbox_route_keyboard_dpad_as_arrows"
+            app:iconSpaceReserved="false" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="checkbox_back_as_meta"
             android:summary="@string/summary_back_as_meta"
             android:title="@string/title_checkbox_back_as_meta"

@@ -1547,6 +1547,37 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         return (byte) modifierFlags;
     }
 
+    private static boolean isKeyboardArrowDpadEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        if (keyCode != KeyEvent.KEYCODE_DPAD_UP &&
+                keyCode != KeyEvent.KEYCODE_DPAD_DOWN &&
+                keyCode != KeyEvent.KEYCODE_DPAD_LEFT &&
+                keyCode != KeyEvent.KEYCODE_DPAD_RIGHT) {
+            return false;
+        }
+
+        InputDevice device = event.getDevice();
+        if (device == null) {
+            return false;
+        }
+
+        if (device.getKeyboardType() == InputDevice.KEYBOARD_TYPE_ALPHABETIC) {
+            return true;
+        }
+
+        int eventSource = event.getSource();
+        if ((eventSource & InputDevice.SOURCE_KEYBOARD) == InputDevice.SOURCE_KEYBOARD &&
+                (eventSource & InputDevice.SOURCE_GAMEPAD) == 0 &&
+                (eventSource & InputDevice.SOURCE_JOYSTICK) == 0) {
+            return true;
+        }
+
+        int deviceSources = device.getSources();
+        return (deviceSources & InputDevice.SOURCE_KEYBOARD) == InputDevice.SOURCE_KEYBOARD &&
+                (deviceSources & InputDevice.SOURCE_GAMEPAD) == 0 &&
+                (deviceSources & InputDevice.SOURCE_JOYSTICK) == 0;
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return handleKeyDown(event) || super.onKeyDown(keyCode, event);
@@ -1585,10 +1616,11 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
 
         boolean handled = false;
+        boolean treatAsKeyboardArrow = prefConfig.routeKeyboardDpadAsArrows &&
+                isKeyboardArrowDpadEvent(event);
 
-        if (ControllerHandler.isGameControllerDevice(event.getDevice())) {
-            // Always try the controller handler first, unless it's an alphanumeric keyboard device.
-            // Otherwise, controller handler will eat keyboard d-pad events.
+        if (!treatAsKeyboardArrow && ControllerHandler.isGameControllerDevice(event.getDevice())) {
+            // Route keyboard-origin DPAD arrows through the keyboard path.
             handled = controllerHandler.handleButtonDown(event);
         }
 
@@ -1675,9 +1707,10 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
 
         boolean handled = false;
-        if (ControllerHandler.isGameControllerDevice(event.getDevice())) {
-            // Always try the controller handler first, unless it's an alphanumeric keyboard device.
-            // Otherwise, controller handler will eat keyboard d-pad events.
+        boolean treatAsKeyboardArrow = prefConfig.routeKeyboardDpadAsArrows &&
+                isKeyboardArrowDpadEvent(event);
+        if (!treatAsKeyboardArrow && ControllerHandler.isGameControllerDevice(event.getDevice())) {
+            // Route keyboard-origin DPAD arrows through the keyboard path.
             handled = controllerHandler.handleButtonUp(event);
         }
 

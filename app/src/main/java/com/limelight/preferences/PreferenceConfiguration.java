@@ -88,6 +88,7 @@ public class PreferenceConfiguration {
 
     private static final String CHECKBOX_ENABLE_BATTERY_REPORT = "checkbox_gamepad_enable_battery_report";
     private static final String CHECKBOX_FORCE_QWERTY = "checkbox_force_qwerty";
+    private static final String CHECKBOX_ROUTE_KEYBOARD_DPAD_AS_ARROWS = "checkbox_route_keyboard_dpad_as_arrows";
     private static final String CHECKBOX_BACK_AS_META = "checkbox_back_as_meta";
     private static final String CHECKBOX_IGNORE_SYNTH_EVENTS = "checkbox_ignore_synth_events";
     private static final String CHECKBOX_BACK_AS_GUIDE = "checkbox_back_as_guide";
@@ -164,6 +165,7 @@ public class PreferenceConfiguration {
     private static final boolean DEFAULT_GAMEPAD_MOTION_FALLBACK = false;
     private static final boolean DEFAULT_GAMEPAD_ENABLE_BATTERY_REPORT = true;
     private static final boolean DEFAULT_FORCE_QWERTY = true;
+    private static final boolean DEFAULT_ROUTE_KEYBOARD_DPAD_AS_ARROWS = false;
     private static final boolean DEFAULT_SEND_META_ON_PHYSICAL_BACK = false;
     private static final boolean DEFAULT_IGNORE_SYNTH_EVENTS = false;
     private static final boolean DEFAULT_BACK_AS_GUIDE = false;
@@ -208,6 +210,7 @@ public class PreferenceConfiguration {
     public boolean hideOSCWhenHasGamepad;
     public boolean enableBatteryReport;
     public boolean forceQwerty;
+    public boolean routeKeyboardDpadAsArrows;
     public boolean backAsMeta;
     public boolean ignoreSynthEvents;
     public boolean backAsGuide;
@@ -858,6 +861,7 @@ public class PreferenceConfiguration {
         config.absoluteMouseMode = prefs.getBoolean(ABSOLUTE_MOUSE_MODE_PREF_STRING, DEFAULT_ABSOLUTE_MOUSE_MODE);
         config.enableBatteryReport = prefs.getBoolean(CHECKBOX_ENABLE_BATTERY_REPORT, DEFAULT_GAMEPAD_ENABLE_BATTERY_REPORT);
         config.forceQwerty = prefs.getBoolean(CHECKBOX_FORCE_QWERTY, DEFAULT_FORCE_QWERTY);
+        config.routeKeyboardDpadAsArrows = prefs.getBoolean(CHECKBOX_ROUTE_KEYBOARD_DPAD_AS_ARROWS, DEFAULT_ROUTE_KEYBOARD_DPAD_AS_ARROWS);
         config.backAsMeta = prefs.getBoolean(CHECKBOX_BACK_AS_META, DEFAULT_SEND_META_ON_PHYSICAL_BACK);
         config.ignoreSynthEvents = prefs.getBoolean(CHECKBOX_IGNORE_SYNTH_EVENTS, DEFAULT_IGNORE_SYNTH_EVENTS);
         config.backAsGuide = prefs.getBoolean(CHECKBOX_BACK_AS_GUIDE, DEFAULT_BACK_AS_GUIDE);

@@ -477,6 +477,8 @@
     <string name="summary_trackpad_swap_axis">On some devices, trackpad input may be rotated in axis. Enabling this option may help.</string>
     <string name="title_checkbox_force_qwerty">Force QWERTY layout</string>
     <string name="summary_checkbox_force_qwerty">Force use QWERTY keyboard layout.\nRequired by GFE.\nTurn off if you want to use a different keyboard layout.</string>
+    <string name="title_checkbox_route_keyboard_dpad_as_arrows">Route keyboard DPAD arrows as arrow keys (Experimental)</string>
+    <string name="summary_checkbox_route_keyboard_dpad_as_arrows">Use this if a Bluetooth or USB keyboard\'s arrow keys are treated like controller DPAD input instead of host arrow keys.</string>
     <string name="title_checkbox_back_as_meta">Back button as Meta</string>
     <string name="summary_back_as_meta">Send Meta(Win) key on physical back button press.</string>
     <string name="title_back_as_guide">Back button as Guide</string>
