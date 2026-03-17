@@ -30,19 +30,26 @@ jobs:
       - name: Validate tag and derive Android version
         id: version
         shell: bash
-        env:
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: |
           set -euo pipefail
 
           tag="${GITHUB_REF_NAME}"
-          if [[ ! "${tag}" =~ ^v(.+)$ ]]; then
-            echo "Tag '${tag}' is invalid. Expected format: v12.1.250118" >&2
+          if [[ ! "${tag}" =~ ^v([0-9]{4})\.([0-9]{1,2})\.([0-9]{1,2})$ ]]; then
+            echo "Tag '${tag}' is invalid. Expected format: v2026.3.1" >&2
             exit 1
           fi
 
-          version_name="${BASH_REMATCH[1]}"
-          version_code=$((100000 + GITHUB_RUN_NUMBER))
+          year="${BASH_REMATCH[1]}"
+          minor="${BASH_REMATCH[2]}"
+          patch="${BASH_REMATCH[3]}"
+
+          if (( minor > 99 || patch > 99 )); then
+            echo "Minor and patch must be between 0 and 99" >&2
+            exit 1
+          fi
+
+          version_name="${tag#v}"
+          printf -v version_code "%d%02d%02d" "${year}" "${minor}" "${patch}"
           artifact_prefix="Artemis-${tag}"
 
           {
