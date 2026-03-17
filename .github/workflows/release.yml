@@ -15,6 +15,17 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Verify native submodules
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f app/src/main/jni/moonlight-core/moonlight-common-c/src/AudioStream.c
+          git submodule status --recursive
 
       - name: Validate tag and derive Android version
         id: version
