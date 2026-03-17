@@ -1,5 +1,16 @@
 apply plugin: 'com.android.application'
 
+def defaultReleaseVersionName = "12.1.250118"
+def defaultReleaseVersionCode = 43
+def releaseVersionName = (project.findProperty("releaseVersionName") ?: defaultReleaseVersionName).toString()
+def releaseVersionCode = ((project.findProperty("releaseVersionCode") ?: defaultReleaseVersionCode).toString()).toInteger()
+def releaseStoreFile = (project.findProperty("androidReleaseStoreFile") ?: System.getenv("ANDROID_RELEASE_STORE_FILE"))?.toString()
+def releaseStorePassword = (project.findProperty("androidReleaseStorePassword") ?: System.getenv("ANDROID_RELEASE_STORE_PASSWORD"))?.toString()
+def releaseKeyAlias = (project.findProperty("androidReleaseKeyAlias") ?: System.getenv("ANDROID_RELEASE_KEY_ALIAS"))?.toString()
+def releaseKeyPassword = (project.findProperty("androidReleaseKeyPassword") ?: System.getenv("ANDROID_RELEASE_KEY_PASSWORD"))?.toString()
+def hasReleaseSigning = [releaseStoreFile, releaseStorePassword, releaseKeyAlias, releaseKeyPassword]
+        .every { it != null && !it.trim().isEmpty() }
+
 android {
     ndkVersion "27.0.12077973"
 
@@ -11,11 +22,22 @@ android {
         minSdk 21
         targetSdk 34
 
-        versionName "12.1.250118"
-        versionCode = 43
+        versionName releaseVersionName
+        versionCode = releaseVersionCode
 
         // Generate native debug symbols to allow Google Play to symbolicate our native crashes
         ndk.debugSymbolLevel = 'FULL'
+    }
+
+    signingConfigs {
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(releaseStoreFile)
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
     }
 
     flavorDimensions.add("root")
@@ -132,6 +154,10 @@ android {
             resValue "string", "app_label", "Artemis"
             resValue "string", "app_label_root", "Artemis (Root)"
             resValue "string", "app_label_game", "Artemis (Game)"
+
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
