@@ -1030,7 +1030,7 @@ public class KeyMapper {
         linuxToWindowsKeyMap[KEY_F22] = VK_F22;
         linuxToWindowsKeyMap[KEY_F23] = VK_F23;
         linuxToWindowsKeyMap[KEY_F24] = VK_F24;
-        linuxToWindowsKeyMap[KEY_SYSRQ] = VK_PRINT;
+        linuxToWindowsKeyMap[KEY_SYSRQ] = VK_SNAPSHOT;
         linuxToWindowsKeyMap[KEY_SCROLLLOCK] = VK_SCROLL;
         linuxToWindowsKeyMap[KEY_PAUSE] = VK_PAUSE;
         linuxToWindowsKeyMap[KEY_INSERT] = VK_INSERT;
